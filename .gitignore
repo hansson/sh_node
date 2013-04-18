@@ -7,6 +7,8 @@ lib-cov
 *.pid
 *.gz
 
+deployment.properties
+
 pids
 logs
 results
