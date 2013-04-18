@@ -1,0 +1,3 @@
+gcm-key = A-SUPER-AWESOME-GCM-KEY
+mongo-url = mongodb://username:password@address:port/db
+server-port = 8080
