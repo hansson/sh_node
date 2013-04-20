@@ -16,38 +16,6 @@
 	"buffers":
 	[
 		{
-			"file": "deployment.properties",
-			"settings":
-			{
-				"buffer_size": 145,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "deployment.properties.template",
-			"settings":
-			{
-				"buffer_size": 108,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "index.js",
-			"settings":
-			{
-				"buffer_size": 1027,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "server.js",
-			"settings":
-			{
-				"buffer_size": 589,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "router.js",
 			"settings":
 			{
@@ -103,6 +71,10 @@
 	},
 	"file_history":
 	[
+		"/home/hansson/workspace/shh/sh_node/deployment.properties",
+		"/home/hansson/workspace/shh/sh_node/deployment.properties.template",
+		"/home/hansson/workspace/shh/sh_node/index.js",
+		"/home/hansson/workspace/shh/sh_node/server.js",
 		"/home/hansson/workspace/shh/sh_node/gcm-service.js",
 		"/home/hansson/workspace/shh/ShitHead/shithead.sublime-workspace",
 		"/home/hansson/workspace/shh/ShitHead/shithead.sublime-project",
@@ -147,112 +119,6 @@
 			[
 				{
 					"buffer": 0,
-					"file": "deployment.properties",
-					"settings":
-					{
-						"buffer_size": 145,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								145,
-								145
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/JavaProperties.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "deployment.properties.template",
-					"settings":
-					{
-						"buffer_size": 108,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								33,
-								33
-							]
-						],
-						"settings":
-						{
-							"auto_name": "",
-							"syntax": "Packages/Java/JavaProperties.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "index.js",
-					"settings":
-					{
-						"buffer_size": 1027,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								776,
-								776
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "server.js",
-					"settings":
-					{
-						"buffer_size": 589,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								438,
-								438
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
 					"file": "router.js",
 					"settings":
 					{
@@ -279,7 +145,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 1,
 					"file": "requestHandlers.js",
 					"settings":
 					{
@@ -290,8 +156,8 @@
 						"selection":
 						[
 							[
-								6710,
-								6710
+								1929,
+								1929
 							]
 						],
 						"settings":
@@ -301,13 +167,13 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 816.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 2,
 					"file": "gcm-service.js",
 					"settings":
 					{
@@ -388,6 +254,10 @@
 		"height": 500.0,
 		"selected_items":
 		[
+			[
+				"",
+				"/home/hansson/workspace/shh/ShitHead/shithead.sublime-project"
+			]
 		],
 		"width": 380.0
 	},
