@@ -16,11 +16,14 @@
 	"buffers":
 	[
 		{
+			"contents": "",
 			"file": "deployment.properties",
+			"file_size": -1,
+			"file_write_time": -1,
 			"settings":
 			{
-				"buffer_size": 145,
-				"line_ending": "Unix"
+				"buffer_size": 0,
+				"line_ending": "Windows"
 			}
 		},
 		{
@@ -150,15 +153,15 @@
 					"file": "deployment.properties",
 					"settings":
 					{
-						"buffer_size": 145,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								145,
-								145
+								0,
+								0
 							]
 						],
 						"settings":
@@ -183,8 +186,8 @@
 						"selection":
 						[
 							[
-								33,
-								33
+								108,
+								108
 							]
 						],
 						"settings":

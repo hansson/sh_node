@@ -3,17 +3,19 @@ var exec = require('child_process').exec;
 var sleep = require('sleep');
 var toolbox = require('toolbox');
 var mongoose = require('mongoose');
+var prop = require('properties-parser');
 var gcm = require('./gcm-service');
 var models = require('./models');
 
-//DB Connection
-mongoose.connect('mongodb://shit:2kTpdbiassSH!@ds051577.mongolab.com:51577/sh_test');
-var db = mongoose.connection;
-
-console.log("Running queue handler");
+prop.read("deployment.properties", function(err, properties) {
+	//Database connection
+	mongoose.connect(properties["mongo-url"]);
+	var db = mongoose.connection;
+	handleQueue(db);
+});
 
 //This function will handle all the users queued for games
-function handleQueue() {
+function handleQueue(db) {
 	//Find out if there is any files with new users
 	exec('ls ./queue', function(err, stdout, stderr) {
 		//Put file names into array
@@ -122,7 +124,6 @@ function deal(gameBoard, players,  callback) {
 }
 
 
-handleQueue();
 
 
 
