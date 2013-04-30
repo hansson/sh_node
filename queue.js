@@ -11,11 +11,11 @@ prop.read("deployment.properties", function(err, properties) {
 	//Database connection
 	mongoose.connect(properties["mongo-url"]);
 	var db = mongoose.connection;
-	handleQueue(db);
+	handleQueue(db, properties);
 });
 
 //This function will handle all the users queued for games
-function handleQueue(db) {
+function handleQueue(db, properties) {
 	//Find out if there is any files with new users
 	exec('ls ./queue', function(err, stdout, stderr) {
 		//Put file names into array
@@ -53,7 +53,7 @@ function handleQueue(db) {
 										//When all players are in the array
 										if(regIds.length === players.length) {
 											//Send start event with GCM
-											gcm.sendGCMMessage({mGCMType: "GCM_START", mGameId: gameBoard._id}, regIds);
+											gcm.sendGCMMessage({mGCMType: "GCM_START", mGameId: gameBoard._id}, regIds, properties);
 										}
 									});
 								};
@@ -101,7 +101,7 @@ function handleQueue(db) {
 				//Done with this queue item, handle next
 				exec('rm ./queue/' + queueFiles[0], function(err, stdout, stderr) {
 				});	
-				handleQueue();
+				handleQueue(db,properties);
 					
 				});
 		} else {
