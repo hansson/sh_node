@@ -36,16 +36,16 @@ function login(response, postData, db, properties) {
         response.end(JSON.stringify(authResponse));
         //if reg id has changed
         if(request.mRegId) {
-           user.mRegId = request.mRegId;
-        }
+         user.mRegId = request.mRegId;
+       }
         //Update user with new session id and reg id
         models.User.update({mUsername: request.mUsername},{mRegId: user.mRegId, mSessionId: authResponse.mSessionId}).exec();
       });
     //If user not found
-    } else {
-      var authResponse = {
-          mStatus: "INVALID_CREDENTIALS"
-      }
+  } else {
+    var authResponse = {
+      mStatus: "INVALID_CREDENTIALS"
+    }
       //Send invalid credentials response
       response.end(JSON.stringify(authResponse));
     }
@@ -80,15 +80,15 @@ function register(response, postData, db, properties) {
         });
         //Save it
         newUser.save();
-    } else {
+      } else {
       //If user found
       //Send user exists response
       var existsResponse = {
-          mStatus: "EMAL_OR_USERNAME_EXISTS"
+        mStatus: "EMAL_OR_USERNAME_EXISTS"
       }
       response.end(JSON.stringify(existsResponse));
     }
-    });
+  });
   } else {
     //If not all fields
     var nokResponse = {
@@ -113,7 +113,7 @@ function findQuickGame(response, postData, db, properties) {
     response.writeHead(200, {"Content-Type": "application/json"});
     if(user) {
       var basicResponse = {
-          mStatus: "OK"
+        mStatus: "OK"
       }
       response.end(JSON.stringify(basicResponse));
       var player = {
@@ -123,7 +123,7 @@ function findQuickGame(response, postData, db, properties) {
       fs.writeFile("./queue/" + Date.now() + ".queue", JSON.stringify(player));
     } else {
       var invalidResponse = {
-          mStatus: "INVALID_CREDENTIALS"
+        mStatus: "INVALID_CREDENTIALS"
       }
       response.end(JSON.stringify(invalidResponse));
     }
@@ -153,7 +153,7 @@ function getGameState(response, postData, db, properties) {
       });
     } else {
       var invalidResponse = {
-          mStatus: "INVALID_CREDENTIALS"
+        mStatus: "INVALID_CREDENTIALS"
       }
       response.end(JSON.stringify(invalidResponse));
     }
@@ -201,22 +201,22 @@ function switchCards(response, postData, db, properties) {
                   };
                 }
               });
-            });
-          });
-        } else { 
-          var invalidGameResponse = {
-            mStatus: "INVALID_GAME"
-          }
-          response.end(JSON.stringify(invalidGameResponse));
-        }
-      });
-    } else {
-      var invalidResponse = {
-          mStatus: "INVALID_CREDENTIALS"
-      }
-      response.end(JSON.stringify(invalidResponse));
-    }
-  });
+});
+});
+} else { 
+  var invalidGameResponse = {
+    mStatus: "INVALID_GAME"
+  }
+  response.end(JSON.stringify(invalidGameResponse));
+}
+});
+} else {
+  var invalidResponse = {
+    mStatus: "INVALID_CREDENTIALS"
+  }
+  response.end(JSON.stringify(invalidResponse));
+}
+});
 }
 
 //TODO user cleanup of empty games?
@@ -233,15 +233,15 @@ function findGames(response, postData, db, properties) {
         mGames: []
       };
       var counter = user.mCurrentGames.length;
-        models.GameBoard.find({_id: {$in: user.mCurrentGames}}, function(err, games) {
-          for (var i = games.length - 1; i >= 0; i--) {
-            activeGamesResponse.mGames.push({mStartedAt: games[i].mStartedAt, mGameId: games[i]._id, mCurrentPlayerName: games[i].mCurrentPlayerName, mLastMove: games[i].mLastUpdate});
-          };
-          response.end(JSON.stringify(activeGamesResponse));
-        });
+      models.GameBoard.find({_id: {$in: user.mCurrentGames}}, function(err, games) {
+        for (var i = games.length - 1; i >= 0; i--) {
+          activeGamesResponse.mGames.push({mStartedAt: games[i].mStartedAt, mGameId: games[i]._id, mCurrentPlayerName: games[i].mCurrentPlayerName, mLastMove: games[i].mLastUpdate});
+        };
+        response.end(JSON.stringify(activeGamesResponse));
+      });
     } else {
       var invalidResponse = {
-          mStatus: "INVALID_CREDENTIALS"
+        mStatus: "INVALID_CREDENTIALS"
       }
       response.end(JSON.stringify(invalidResponse));
     }
@@ -261,11 +261,11 @@ function makeMove(response, postData, db, properties) {
         if(game) {
           gameHandler.checkMove(game, request, user, function(moveResponse, updatedGame, playerIndex){
             response.end(JSON.stringify(moveResponse));
-
-            var value = {};
-            value["mPlayers." + playerIndex] = updatedGame.mPlayers[playerIndex];
-            models.GameBoard.update({_id: updatedGame._id}, {$set: value, mFinished: updatedGame.mFinished, mCurrentPlayer: updatedGame.mCurrentPlayer, mCurrentPlayerName: updatedGame.mCurrentPlayerName, mDeck: updatedGame.mDeck, mPile: updatedGame.mPile, mLastUpdate: Date.now(), mChanceTaken: updatedGame.mChanceTaken, mLocked: false}).exec();
-
+            if(updatedGame && playerIndex) {
+              var value = {};
+              value["mPlayers." + playerIndex] = updatedGame.mPlayers[playerIndex];
+              models.GameBoard.update({_id: updatedGame._id}, {$set: value, mFinished: updatedGame.mFinished, mCurrentPlayer: updatedGame.mCurrentPlayer, mCurrentPlayerName: updatedGame.mCurrentPlayerName, mDeck: updatedGame.mDeck, mPile: updatedGame.mPile, mLastUpdate: Date.now(), mChanceTaken: updatedGame.mChanceTaken, mLocked: false}).exec();
+            }
           });
         } else {
           var invalidGameResponse = {
@@ -276,7 +276,7 @@ function makeMove(response, postData, db, properties) {
       });
     } else {
       var invalidResponse = {
-          mStatus: "INVALID_CREDENTIALS"
+        mStatus: "INVALID_CREDENTIALS"
       }
       response.end(JSON.stringify(invalidResponse));
     }
@@ -310,7 +310,7 @@ function makeMoveFaceDown(response, postData, db, properties) {
       });
     } else {
       var invalidResponse = {
-          mStatus: "INVALID_CREDENTIALS"
+        mStatus: "INVALID_CREDENTIALS"
       }
       response.end(JSON.stringify(invalidResponse));
     }
