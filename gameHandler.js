@@ -1,4 +1,5 @@
 var gcm = require('./gcm-service')
+var models = require('./models')
 
 function getGameState(game, user, callback) {
 
@@ -222,7 +223,7 @@ function checkMove(game, request, user, callback) {
       if(player.mFaceDown.length == 0 && player.mFaceUp.length == 0 && player.mHand.length == 0) {
         decideFinishPosition(player, game);
       }
-      
+
       callback(response, game, playerIndex);
       //Send GCM
       var regIds = [];
