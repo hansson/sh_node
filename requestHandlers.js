@@ -260,6 +260,7 @@ function makeMove(response, postData, db, properties) {
       models.GameBoard.findByIdAndUpdate(request.mGameId, {mLocked: true},function(err, game) {
         if(game) {
           gameHandler.checkMove(game, request, user, function(moveResponse, updatedGame, playerIndex){
+            console.log(JSON.stringify(moveResponse));
             response.end(JSON.stringify(moveResponse));
             if(updatedGame && playerIndex) {
               var value = {};
