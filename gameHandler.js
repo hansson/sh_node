@@ -117,7 +117,7 @@ function checkSetDoneSwitching(game, callback) {
 	callback(setDone, currentPlayer, currentPlayerName);
 }
 
-function checkMove(game, request, user, callback) {
+function checkMove(game, request, user, properties, callback) {
 	var playerIndex = -1;
 	for (var i = game.mPlayers.length - 1; i >= 0; i--) {
 		if(game.mPlayers[i].mPlayerId == user._id) {
@@ -238,8 +238,7 @@ function checkMove(game, request, user, callback) {
           //When all players are in the array
           if(regIds.length === players.length - 1) {
             //Send start event with GCM
-            gcm.sendGCMMessage({mGCMType: "GCM_PLAYER_MOVE", mGameId: game._id, mNextPlayer: game.mCurrentPlayerName, mPlayerMove: request.mCards, mFaceUpCards: player.mFaceUp, mHandCards: player.mHand.length}, regIds);
-          }  
+            gcm.sendGCMMessage({mGCMType: "GCM_PLAYER_MOVE", mGameId: game._id, mNextPlayer: game.mCurrentPlayerName, mPlayerMove: request.mCards, mFaceUpCards: player.mFaceUp, mHandCards: player.mHand.length}, regIds, properties);          }  
         });
       };
 
