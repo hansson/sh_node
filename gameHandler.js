@@ -129,7 +129,7 @@ function checkMove(game, request, user, callback) {
     if(playerIndex == game.mCurrentPlayer) {
       var player = game.mPlayers[playerIndex];
       var response = {
-            mStatus: "OK"
+        mStatus: "OK"
       }
       if(request.mType == "MOVE") {
         var valid = true;
@@ -204,10 +204,10 @@ function checkMove(game, request, user, callback) {
           response.mNewCards = newCards;
           game.mPile = [];
           do {
-              game.mCurrentPlayer++;
-              if(game.mCurrentPlayer == game.mNumberOfPlayers) {
-                game.mCurrentPlayer = 0;
-              }
+            game.mCurrentPlayer++;
+            if(game.mCurrentPlayer == game.mNumberOfPlayers) {
+              game.mCurrentPlayer = 0;
+            }
           } while(game.mPlayers[game.mCurrentPlayer].mPosition != 0);
           game.mCurrentPlayerName = game.mPlayers[game.mCurrentPlayer].mUsername;
           response.mNextPlayer = game.mCurrentPlayerName;
@@ -222,7 +222,7 @@ function checkMove(game, request, user, callback) {
       if(player.mFaceDown.length == 0 && player.mFaceUp.length == 0 && player.mHand.length == 0) {
         decideFinishPosition(player, game);
       }
-     
+      
       callback(response, game, playerIndex);
       //Send GCM
       var regIds = [];
@@ -243,13 +243,17 @@ function checkMove(game, request, user, callback) {
       };
 
     } else {
-      response.mStatus = "OTHER_PLAYER";
+      var response = {
+        mStatus: "OTHER_PLAYER"
+      }
       callback(response, null, null);        
     }
-	} else {
-		response.mStatus = "INVALID_GAME";
+  } else {
+    var response = {
+      mStatus: "INVALID_GAME"
+    }
     callback(response, null, null);  
-	}
+  }
 }
 
 function checkMoveFaceDown(game, request, user, callback) {
@@ -265,7 +269,7 @@ function checkMoveFaceDown(game, request, user, callback) {
     if(playerIndex == game.mCurrentPlayer) {
       var player = game.mPlayers[playerIndex];
       var response = {
-            mStatus: "OK"
+        mStatus: "OK"
       }
       if(player.mHand.length == 0 && player.mFaceUp.length == 0 && player.mFaceDown.length != 0) {
         var index = request.mIndex;
@@ -439,6 +443,6 @@ function cardExistsInArray(object, array) {
 	};
 	return contains;
 }
-	
+
 
 
