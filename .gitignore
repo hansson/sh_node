@@ -8,6 +8,7 @@ lib-cov
 *.gz
 
 deployment.properties
+node_modules/
 
 pids
 logs
