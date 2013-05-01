@@ -312,7 +312,7 @@ function checkMoveFaceDown(game, request, user, properties, callback) {
               game.mCurrentPlayer = 0;
             }
           } while(game.mPlayers[game.mCurrentPlayer].mPosition != 0);
-          mCurrentPlayerName = mPlayers.get(mCurrentPlayer).getUsername();
+          mCurrentPlayerName = game.mPlayers[game.mCurrentPlayer].mUsername;
           response.mGameEvent = "PILE";
         }
         response.mNextPlayer = game.mCurrentPlayerName;
