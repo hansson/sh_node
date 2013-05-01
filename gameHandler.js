@@ -239,7 +239,7 @@ function checkMove(game, request, user, properties, callback) {
           if(regIds.length === players.length - 1) {
             //Send start event with GCM
             gcm.sendGCMMessage({mGCMType: "GCM_PLAYER_MOVE", mGameId: game._id, mNextPlayer: game.mCurrentPlayerName, mPlayerMove: request.mCards, mFaceUpCards: player.mFaceUp, mHandCards: player.mHand.length}, regIds, properties);          }  
-        });
+          });
       };
 
     } else {
@@ -442,6 +442,36 @@ function cardExistsInArray(object, array) {
 		}
 	};
 	return contains;
+}
+
+function validateChanceTakePile(player, pile) {
+  boolean valid = true;
+  if (pile.length == 0) {
+    valid = false;
+  } else if (player.mHand.length > 0) {
+    for (var i = player.mHand.length - 1; i >= 0; i--) {
+      if (player.mHand[i].mValue == 2 || player.mHand[i].mValue == 10 || player.mHand[i].mValue >= pile[pile.length -1].mValue) {
+        valid = false;
+        break;
+      }
+    };
+    for (var i = player.mHand.length - 1; i >= 0; i--) {
+      if (player.mHand[i].mValue == 2 || player.mHand[i].mValue == 10 || player.mHand[i].mValue >= pile[pile.length -1].mValue) {
+        valid = false;
+        break;
+      }
+    };
+  } else if (player.mFaceUp.length > 0) {
+    for (var i = player.mFaceUp.length - 1; i >= 0; i--) {
+      if (player.mFaceUp[i].mValue == 2 || player.mFaceUp[i].mValue == 10 || player.mFaceUp[i].mValue >= pile[pile.length -1].mValue) {
+        valid = false;
+        break;
+      }
+    };
+  } else {
+    valid = false;
+  }
+  return valid;
 }
 
 
