@@ -137,7 +137,7 @@ function checkMove(game, request, user, properties, callback) {
         var valid = true;
         var value = 0;
         for (var i = request.mCards.length - 1; i >= 0; i--) {
-          if((player.mHand.length > 0 && cardExistsInArray(request.mCards[i], player.mHand))||(player.mHand.length == 0 && cardExistsInArray(request.mCards[i], player.nFaceUp))) {
+          if((player.mHand.length > 0 && cardExistsInArray(request.mCards[i], player.mHand))||(player.mHand.length == 0 && cardExistsInArray(request.mCards[i], player.mFaceUp))) {
             if(value == 0) {
               value = request.mCards[i].mValue;
             }
