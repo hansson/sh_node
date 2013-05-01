@@ -1,8 +1,8 @@
 var exec = require("child_process").exec;
 var fs = require('fs');
-var models = require('./models')
-var gameHandler = require('./gameHandler')
-var gcm = require('./gcm-service')
+var models = require('./models');
+var gameHandler = require('./gameHandler');
+var gcm = require('./gcm-service');
 
 /***************************************
 ****************************************

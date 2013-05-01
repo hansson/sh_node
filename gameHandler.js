@@ -1,5 +1,5 @@
-var gcm = require('./gcm-service')
-var models = require('./models')
+var gcm = require('./gcm-service');
+var models = require('./models');
 
 function getGameState(game, user, callback) {
 
