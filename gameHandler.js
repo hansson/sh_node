@@ -280,18 +280,16 @@ function checkMoveFaceDown(game, request, user, properties, callback) {
         if(index > player.mFaceDown.length) {
           index = player.mFaceDown.length - 1;
         }
-
-        var card = [];
-        console.log(player.mFaceDown);
-        card.push(player.mFaceDown.splice(index, 1));
-        console.log(card[0]);
-        if(card[0].mValue == 10) {
+        var card = player.mFaceDown.splice(index, 1)
+        var cards = [];
+        cards.push(card);
+        if(card.mValue == 10) {
           game.mPile.length = 0;
           response.mGameEvent = "EXPLODE";
-        } else if(checkFourOfAKind(card, game.mPile)) {
+        } else if(checkFourOfAKind(cards, game.mPile)) {
           game.mPile.length = 0;
           response.mGameEvent = "FOUR";
-        } else if(card[0].mValue == 2 || game.mPile.length == 0 || card[0].mValue >= game.mPile[game.mPile.length - 1]){
+        } else if(card.mValue == 2 || game.mPile.length == 0 || card.mValue >= game.mPile[game.mPile.length - 1]){
           do {
             game.mCurrentPlayer++;
             if(game.mCurrentPlayer == game.mNumberOfPlayers) {
@@ -300,19 +298,11 @@ function checkMoveFaceDown(game, request, user, properties, callback) {
           } while(game.mPlayers[game.mCurrentPlayer].mPosition != 0);
           game.mCurrentPlayerName = game.mPlayers[game.mCurrentPlayer].mUsername;
           response.mGameEvent = "NONE";
-          if(game.mPile == null) {
-            game.mPile = [];
-          }
-          if(game.mPile.length > 0) {
-            game.mPile[game.mPile.length - 1] = card[0];
-          } else {
-            game.mPile[0] = card[0];
-          }
-          
+          game.mPile.push(card);
         } else {
           response.mNewCards = [];
           transferToArray(game.mPile, response.mNewCards);
-          response.mNewCards[response.mNewCards.length] = card[0];
+          response.mNewCards[response.mNewCards.length] = card;
           player.mHand = response.mNewCards.slice(0);
           do {
             game.mCurrentPlayer++;
