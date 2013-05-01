@@ -257,7 +257,7 @@ function checkMove(game, request, user, properties, callback) {
   }
 }
 
-function checkMoveFaceDown(game, request, user, callback) {
+function checkMoveFaceDown(game, request, user, properties, callback) {
   var playerIndex = -1;
   for (var i = game.mPlayers.length - 1; i >= 0; i--) {
     if(game.mPlayers[i].mPlayerId == user._id) {
@@ -332,7 +332,7 @@ function checkMoveFaceDown(game, request, user, callback) {
             //When all players are in the array
             if(regIds.length === players.length - 1) {
               //Send start event with GCM
-              gcm.sendGCMMessage({mGCMType: "GCM_PLAYER_MOVE_FACE_DOWN", mGameId: game._id, mNextPlayer: game.mCurrentPlayerName, mFaceDownCard: card, mGameEvent: response.mGameEvent}, regIds);
+              gcm.sendGCMMessage({mGCMType: "GCM_PLAYER_MOVE_FACE_DOWN", mGameId: game._id, mNextPlayer: game.mCurrentPlayerName, mFaceDownCard: card, mGameEvent: response.mGameEvent}, regIds, properties);
             }  
           });
         };
