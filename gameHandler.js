@@ -302,7 +302,7 @@ function checkMoveFaceDown(game, request, user, properties, callback) {
           response.mGameEvent = "NONE";
           console.log("PILE:" + game.mPile);
           console.log("PUSHING: " + card[0]);
-          if(game.mPile == null)
+          if(game.mPile == null) {
             game.mPile = [];
           }
           game.mPile.push(card[0]);
