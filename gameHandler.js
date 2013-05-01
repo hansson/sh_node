@@ -298,7 +298,7 @@ function checkMoveFaceDown(game, request, user, properties, callback) {
           } while(game.mPlayers[game.mCurrentPlayer].mPosition != 0);
           game.mCurrentPlayerName = game.mPlayers[game.mCurrentPlayer].mUsername;
           response.mGameEvent = "NONE";
-          game.mPile.push(card);
+          game.mPile[game.mPile.length] = card;
         } else {
           response.mNewCards = [];
           transferToArray(game.mPile, response.mNewCards);
