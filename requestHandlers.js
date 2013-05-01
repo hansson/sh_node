@@ -261,6 +261,8 @@ function makeMove(response, postData, db, properties) {
         if(game) {
           gameHandler.checkMove(game, request, user, properties, function(moveResponse, updatedGame, playerIndex){
             console.log(JSON.stringify(moveResponse));
+            console.log("---------");
+            console.log(updatedGame);
             response.end(JSON.stringify(moveResponse));
             if(updatedGame && playerIndex) {
               var value = {};
