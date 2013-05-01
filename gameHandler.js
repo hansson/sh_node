@@ -441,7 +441,7 @@ function isCardLowerThan(card, than) {
 
 function cardExistsInArray(object, array) {
 	var contains = false;
-  if(object != null || array != null) {
+  if(object != null && array != null) {
     for (var i = array.length - 1; i >= 0; i--) {
       if(object.mValue == array[i].mValue && object.mSuit == array[i].mSuit) {
         contains = true;
