@@ -325,7 +325,7 @@ function checkMoveFaceDown(game, request, user, properties, callback) {
         var players = game.mPlayers;
         //Iterate players
         for (var i = players.length - 1; i >= 0; i--) {
-          models.User.findById(player[i].mPlayerId, function(err, current) {
+          models.User.findById(players[i].mPlayerId, function(err, current) {
             //Append the regId of the current user to the list of regIds
             if(current.mUsername != player.mUsername) {
               regIds.push(current.mRegId);
