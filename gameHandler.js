@@ -282,12 +282,14 @@ function checkMoveFaceDown(game, request, user, properties, callback) {
         }
 
         var card = [];
+        console.log(player.mFaceDown);
         card.push(player.mFaceDown.splice(index, 1));
+        console.log(card[0]);
         if(card[0].mValue == 10) {
-          mGame.mPile.length = 0;
+          game.mPile.length = 0;
           response.mGameEvent = "EXPLODE";
         } else if(checkFourOfAKind(card, game.mPile)) {
-          mGame.mPile.length = 0;
+          game.mPile.length = 0;
           response.mGameEvent = "FOUR";
         } else if(card[0].mValue == 2 || game.mPile.length == 0 || card[0].mValue >= game.mPile[game.mPile.length - 1]){
           do {
