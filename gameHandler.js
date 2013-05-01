@@ -130,7 +130,8 @@ function checkMove(game, request, user, properties, callback) {
     if(playerIndex == game.mCurrentPlayer) {
       var player = game.mPlayers[playerIndex];
       var response = {
-        mStatus: "OK"
+        mStatus: "OK",
+        mNewCards: []
       }
       if(request.mType == "MOVE") {
         var valid = true;
