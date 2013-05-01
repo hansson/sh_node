@@ -312,7 +312,7 @@ function checkMoveFaceDown(game, request, user, properties, callback) {
           response.mNewCards[response.mNewCards.length] = card;
           console.log("NewCards:" + response.mNewCards);
           console.info("Hand:" + player.mHand);
-          player.mHand = response.mNewCards.slice(0);
+          player.mHand = response.mNewCards;
           console.info("Hand:" + player.mHand);
           do {
             game.mCurrentPlayer++;
