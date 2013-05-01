@@ -378,15 +378,15 @@ function checkFourOfAKind(cards, pile) {
   if(cards.length == 4) {
     return true;
   }
+  var count = cards.length;
   for (var i = pile.length - 1; i >= 0; i--) {
     if(pile[i].mValue != cards[0].mValue) {
-      if((pile.length - i) + cards.length == 4 ) {
-        return true;
-      } else {
-        return false;
-      }
+      break;
+    } else {
+      count++;
     }
   };
+  return (count == 4);
 
 }
 
