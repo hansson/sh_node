@@ -155,10 +155,10 @@ function checkMove(game, request, user, properties, callback) {
 
         if(valid) {
           if(request.mCards[0].mValue == 10) {
-            mGame.mPile.length = 0;
+            game.mPile.length = 0;
             response.mGameEvent = "EXPLODE";
           } else if(checkFourOfAKind(request.mCards, game.mPile)) {
-            mGame.mPile.length = 0;
+            game.mPile.length = 0;
             response.mGameEvent = "FOUR";
           } else {
             do {
