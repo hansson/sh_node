@@ -260,16 +260,11 @@ function makeMove(response, postData, db, properties) {
       models.GameBoard.findByIdAndUpdate(request.mGameId, {mLocked: true},function(err, game) {
         if(game) {
           gameHandler.checkMove(game, request, user, properties, function(moveResponse, updatedGame, playerIndex){
-            console.log(JSON.stringify(moveResponse));
-            console.log("---------");
-            console.log(updatedGame);
             response.end(JSON.stringify(moveResponse));
             if(updatedGame) {
-              console.log("in updategame thingy");
               var value = {};
               value["mPlayers." + playerIndex] = updatedGame.mPlayers[playerIndex];
               models.GameBoard.update({_id: updatedGame._id}, {$set: value, mFinished: updatedGame.mFinished, mCurrentPlayer: updatedGame.mCurrentPlayer, mCurrentPlayerName: updatedGame.mCurrentPlayerName, mDeck: updatedGame.mDeck, mPile: updatedGame.mPile, mLastUpdate: Date.now(), mChanceTaken: updatedGame.mChanceTaken, mLocked: false}).exec();
-              console.log("updated");
             }
           });
         } else {
