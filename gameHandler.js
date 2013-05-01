@@ -351,6 +351,7 @@ exports.getGameState = getGameState;
 exports.switchCards = switchCards;
 exports.checkSetDoneSwitching = checkSetDoneSwitching;
 exports.checkMove = checkMove;
+exports.checkMoveFaceDown = checkMoveFaceDown;
 
 //PRIVATE FUNCTIONS
 
