@@ -281,14 +281,15 @@ function checkMoveFaceDown(game, request, user, properties, callback) {
           index = player.mFaceDown.length - 1;
         }
 
-        var card = player.mFaceDown.splice(index, 1);
-        if(request.mCards[0].mValue == 10) {
+        var card = [];
+        card.push(player.mFaceDown.splice(index, 1));
+        if(card[0].mValue == 10) {
           mGame.mPile.length = 0;
           response.mGameEvent = "EXPLODE";
-        } else if(checkFourOfAKind(request.mCards, game.mPile)) {
+        } else if(checkFourOfAKind(card, game.mPile)) {
           mGame.mPile.length = 0;
           response.mGameEvent = "FOUR";
-        } else if(card.mValue == 2 || game.mPile.length == 0 || card.mValue >= game.mPile[game.mPile.length - 1]){
+        } else if(card[0].mValue == 2 || game.mPile.length == 0 || card[0].mValue >= game.mPile[game.mPile.length - 1]){
           do {
             game.mCurrentPlayer++;
             if(game.mCurrentPlayer == game.mNumberOfPlayers) {
@@ -297,11 +298,11 @@ function checkMoveFaceDown(game, request, user, properties, callback) {
           } while(game.mPlayers[game.mCurrentPlayer].mPosition != 0);
           game.mCurrentPlayerName = game.mPlayers[game.mCurrentPlayer].mUsername;
           response.mGameEvent = "NONE";
-          game.mPile.push(card);
+          game.mPile.push(card[0]);
         } else {
           response.mNewCards = [];
           transferToArray(game.mPile, response.mNewCards);
-          response.mNewCards[response.mNewCards.length] = card;
+          response.mNewCards[response.mNewCards.length] = card[0];
           player.mHand = response.mNewCards.slice(0);
           do {
             game.mCurrentPlayer++;
