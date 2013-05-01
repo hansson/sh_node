@@ -445,7 +445,7 @@ function cardExistsInArray(object, array) {
 }
 
 function validateChanceTakePile(player, pile) {
-  boolean valid = true;
+  var valid = true;
   if (pile.length == 0) {
     valid = false;
   } else if (player.mHand.length > 0) {
