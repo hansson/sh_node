@@ -300,8 +300,10 @@ function checkMoveFaceDown(game, request, user, properties, callback) {
           } while(game.mPlayers[game.mCurrentPlayer].mPosition != 0);
           game.mCurrentPlayerName = game.mPlayers[game.mCurrentPlayer].mUsername;
           response.mGameEvent = "NONE";
+          console.log("PILE:" + game.mPile);
           console.log("PUSHING: " + card[0]);
           game.mPile.push(card[0]);
+          console.log("PILE:" + game.mPile);
         } else {
           response.mNewCards = [];
           transferToArray(game.mPile, response.mNewCards);
