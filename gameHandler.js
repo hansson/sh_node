@@ -189,7 +189,7 @@ function checkMove(game, request, user, properties, callback) {
           return;  
         } else if(validateChanceTakePile(player, game.mPile) && game.mDeck.length > 0) {
           response.mNewCards.push(game.mDeck.pop());
-          player.push(response.mNewCards[0]);
+          player.mHand.push(response.mNewCards[0]);
           response.setNextPlayer = game.mCurrentPlayerName;
           game.mChanceTaken = true;
         } else {
