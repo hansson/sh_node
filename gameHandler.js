@@ -308,28 +308,28 @@ function checkMoveFaceDown(game, request, user, properties, callback) {
           } else {
             game.mPile[0] = card[0];
           }
+          
+        } else {
+          response.mNewCards = [];
+          transferToArray(game.mPile, response.mNewCards);
+          response.mNewCards[response.mNewCards.length] = card[0];
+          player.mHand = response.mNewCards.slice(0);
+          do {
+            game.mCurrentPlayer++;
+            if(game.mCurrentPlayer == game.mNumberOfPlayers) {
+              game.mCurrentPlayer = 0;
+            }
+          } while(game.mPlayers[game.mCurrentPlayer].mPosition != 0);
+          mCurrentPlayerName = game.mPlayers[game.mCurrentPlayer].mUsername;
+          response.mGameEvent = "PILE";
         }
-      } else {
-        response.mNewCards = [];
-        transferToArray(game.mPile, response.mNewCards);
-        response.mNewCards[response.mNewCards.length] = card[0];
-        player.mHand = response.mNewCards.slice(0);
-        do {
-          game.mCurrentPlayer++;
-          if(game.mCurrentPlayer == game.mNumberOfPlayers) {
-            game.mCurrentPlayer = 0;
-          }
-        } while(game.mPlayers[game.mCurrentPlayer].mPosition != 0);
-        mCurrentPlayerName = game.mPlayers[game.mCurrentPlayer].mUsername;
-        response.mGameEvent = "PILE";
-      }
-      response.mNextPlayer = game.mCurrentPlayerName;
-      game.mChanceTaken = false;
-      if(player.mFaceDown.length == 0 && player.mFaceUp.length == 0 && player.mHand.length == 0) {
-        decideFinishPosition(player, game);
-      }
+        response.mNextPlayer = game.mCurrentPlayerName;
+        game.mChanceTaken = false;
+        if(player.mFaceDown.length == 0 && player.mFaceUp.length == 0 && player.mHand.length == 0) {
+          decideFinishPosition(player, game);
+        }
 
-      callback(response, game, playerIndex);
+        callback(response, game, playerIndex);
         //Send GCM
         var regIds = [];
         var players = game.mPlayers;
