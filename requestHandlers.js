@@ -201,22 +201,22 @@ function switchCards(response, postData, db, properties) {
                   };
                 }
               });
-});
-});
-} else { 
-  var invalidGameResponse = {
-    mStatus: "INVALID_GAME"
-  }
-  response.end(JSON.stringify(invalidGameResponse));
-}
-});
-} else {
-  var invalidResponse = {
-    mStatus: "INVALID_CREDENTIALS"
-  }
-  response.end(JSON.stringify(invalidResponse));
-}
-});
+            });
+          });
+        } else { 
+          var invalidGameResponse = {
+            mStatus: "INVALID_GAME"
+          }
+          response.end(JSON.stringify(invalidGameResponse));
+        }
+      });
+    } else {
+      var invalidResponse = {
+        mStatus: "INVALID_CREDENTIALS"
+      }
+      response.end(JSON.stringify(invalidResponse));
+    }
+  });
 }
 
 //TODO user cleanup of empty games?

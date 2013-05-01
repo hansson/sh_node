@@ -298,11 +298,19 @@ function checkMoveFaceDown(game, request, user, properties, callback) {
           } while(game.mPlayers[game.mCurrentPlayer].mPosition != 0);
           game.mCurrentPlayerName = game.mPlayers[game.mCurrentPlayer].mUsername;
           response.mGameEvent = "NONE";
-          game.mPile[game.mPile.length] = card;
+          console.log("Card:" + card);
+          console.log("Pile:" + game.mPile);
+          game.mPile.push(card);
+          console.log("Card:" + card);
+          console.log("Pile:" + game.mPile);
         } else {
           response.mNewCards = [];
+          console.log("Pile:" + game.mPile);
           transferToArray(game.mPile, response.mNewCards);
+          console.log("NewCards:" + response.mNewCards);
+          console.log("Pile:" + game.mPile);
           response.mNewCards[response.mNewCards.length] = card;
+          console.log("NewCards:" + response.mNewCards);
           player.mHand = response.mNewCards.slice(0);
           do {
             game.mCurrentPlayer++;
