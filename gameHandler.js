@@ -411,13 +411,18 @@ function removeCardsFromArrays(cards, hand, faceUp) {
 
 function setNewCards(response, player, deck) {
   response.mNewCards = [];
-  for (var i = 3 - player.mHand.length; i > 0 ; i--) {
-    response.mNewCards.push(deck.pop());
-  };
+  if(deck.length > 0) {
+    for (var i = 3 - player.mHand.length; i > 0 ; i--) {
+      var newCard = deck.pop();
+      if(newCards != null) {
+        response.mNewCards.push();
+      }
+    };
 
-  for (var i = response.mNewCards.length - 1; i >= 0; i--) {
-    player.mHand.push(response.mNewCards[i]);
-  };
+    for (var i = response.mNewCards.length - 1; i >= 0; i--) {
+      player.mHand.push(response.mNewCards[i]);
+    };
+  }
 }
 
 function isCardLowerThan(card, than) {
