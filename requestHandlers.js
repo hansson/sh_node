@@ -264,7 +264,7 @@ function makeMove(response, postData, db, properties) {
             console.log("---------");
             console.log(updatedGame);
             response.end(JSON.stringify(moveResponse));
-            if(updatedGame && playerIndex) {
+            if(updatedGame) {
               console.log("in updategame thingy");
               var value = {};
               value["mPlayers." + playerIndex] = updatedGame.mPlayers[playerIndex];
