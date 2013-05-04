@@ -280,9 +280,8 @@ function checkMoveFaceDown(game, request, user, properties, callback) {
         if(index > player.mFaceDown.length) {
           index = player.mFaceDown.length - 1;
         }
-        var card = player.mFaceDown.splice(index, 1)
-        var cards = [];
-        cards.push(card);
+        var cards = player.mFaceDown.splice(index, 1);
+        var card = cards[0];
         if(card.mValue == 10) {
           game.mPile.length = 0;
           response.mGameEvent = "EXPLODE";
