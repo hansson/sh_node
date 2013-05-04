@@ -305,15 +305,12 @@ function checkMoveFaceDown(game, request, user, properties, callback) {
           console.log("Pile:" + game.mPile);
         } else {
           response.mNewCards = [];
-          console.log("Pile:" + game.mPile);
           transferToArray(game.mPile, response.mNewCards);
-          console.log("NewCards:" + response.mNewCards);
-          console.log("Pile:" + game.mPile);
           response.mNewCards[response.mNewCards.length] = card;
-          console.log("NewCards:" + response.mNewCards);
-          console.log("Hand:" + player.mHand);
-          player.mHand = response.mNewCards;
-          console.log("Hand:" + player.mHand);
+          copyToArray(response.mNewCards, player.mHand);
+          console.log(response.mNewCards);
+          console.log("---------------------------");
+          console.log(player.mHand);
           do {
             game.mCurrentPlayer++;
             if(game.mCurrentPlayer == game.mNumberOfPlayers) {
@@ -369,6 +366,14 @@ exports.checkMoveFaceDown = checkMoveFaceDown;
 function transferToArray(from, to) {
   for (var i = from.length - 1; i >= 0; i--) {
     to[i] = from.pop();
+  };
+
+}
+
+function copyToArray(from, to) {
+  var toInitialLength = to.length;
+  for (var i = from.length - 1; i >= 0; i--) {
+    to[toInitialLength + i] = from[i];
   };
 
 }
