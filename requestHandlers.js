@@ -10,10 +10,6 @@ Authentication functions
 ****************************************
 ****************************************/
 
-/*
-{"mUsername":"linne", "mPassword":"a790b758148da5df3809610308ee0478d68c572b029e12aa5a02bfda70d4e716"}
-*/
-
 function login(response, postData, db, properties) {
 
   //Get request data
@@ -106,22 +102,31 @@ Game functions
 
 function findQuickGame(response, postData, db, properties) {
 
+  //Get request data
   var request = JSON.parse(postData);
 
+  //Find the user with the specified sessionId
   models.User.findOne({mSessionId: request.mSessionId}, function (err, user) {
     if (err); // TODO handle err
+    //Prepare user with 200 response code
     response.writeHead(200, {"Content-Type": "application/json"});
+    //If a user was found
     if(user) {
+      //Set status to "OK"
       var basicResponse = {
         mStatus: "OK"
       }
+      //Return response to the user
       response.end(JSON.stringify(basicResponse));
+      //Prepare a player object for the queue
       var player = {
         mPlayerId: user._id,
         mUsername: user.mUsername
       }
-      fs.writeFile("./queue/" + Date.now() + ".queue", JSON.stringify(player));
+      //Write to new queue file
+      fs.writeFile("./queue/" + Date.now() + user.mUsername + ".queue", JSON.stringify(player));
     } else {
+      //If no user was found return invalid credentials
       var invalidResponse = {
         mStatus: "INVALID_CREDENTIALS"
       }
@@ -133,18 +138,26 @@ function findQuickGame(response, postData, db, properties) {
 
 function getGameState(response, postData, db, properties) {
 
+  //Get request data
   var request = JSON.parse(postData);
 
+  //Find the user with the specified sessionId
   models.User.findOne({mSessionId: request.mSessionId}, function (err, user) {
     if (err); // TODO handle err
+    //Prepare user with 200 response code
     response.writeHead(200, {"Content-Type": "application/json"});
+    //If a user was found
     if(user) {
+      //Look for game
       models.GameBoard.findById(request.mGameId, function(err, game) {
+        //If a game was found
         if(game) {
+          //Return tha state of that game
           gameHandler.getGameState(game, user, function(gameStateResponse){
             response.end(JSON.stringify(gameStateResponse));
           });
         } else {
+          //If no game was found return invalid response
           var invalidGameResponse = {
             mStatus: "INVALID_GAME"
           }
@@ -152,6 +165,7 @@ function getGameState(response, postData, db, properties) {
         }
       });
     } else {
+      //If no user was found return invalid credentials
       var invalidResponse = {
         mStatus: "INVALID_CREDENTIALS"
       }
@@ -163,11 +177,13 @@ function getGameState(response, postData, db, properties) {
 
 function switchCards(response, postData, db, properties) {
 
+  //Get Request data
   var request = JSON.parse(postData);
 
-
+  //Find the user with the specified sessionId
   models.User.findOne({mSessionId: request.mSessionId}, function (err, user) {
     if (err); // TODO handle err
+    //Prepare response with 200 code
     response.writeHead(200, {"Content-Type": "application/json"});
     if(user) {
       models.GameBoard.findById(request.mGameId, function(err, game) {
@@ -200,6 +216,8 @@ function switchCards(response, postData, db, properties) {
                     });
                   };
                 }
+                //Sublime WAI U MESS UP FORMATTING?!
+                //I'm not even gonna comment.. I'm so mad!
               });
 });
 });
@@ -222,24 +240,33 @@ function switchCards(response, postData, db, properties) {
 //TODO user cleanup of empty games?
 function findGames(response, postData, db, properties) {
 
+  //Get Request data, getting tired of this yet?
   var request = JSON.parse(postData);
 
+  //Find the user with the specified user id
   models.User.findOne({mSessionId: request.mSessionId}, function (err, user) {
     if (err); // TODO handle err
+    //Prepare response header with code 200
     response.writeHead(200, {"Content-Type": "application/json"});
+    //If a user is found
     if(user) {
+      //Prepare response
       var activeGamesResponse = {
         mStatus: "OK",
         mGames: []
       };
       var counter = user.mCurrentGames.length;
+      //Find all games that the user is in
       models.GameBoard.find({_id: {$in: user.mCurrentGames}}, function(err, games) {
+        //Put every game in the response
         for (var i = games.length - 1; i >= 0; i--) {
           activeGamesResponse.mGames.push({mStartedAt: games[i].mStartedAt, mGameId: games[i]._id, mCurrentPlayerName: games[i].mCurrentPlayerName, mLastMove: games[i].mLastUpdate});
         };
+        //Return response to the user
         response.end(JSON.stringify(activeGamesResponse));
       });
     } else {
+      //If the session id does not exist, invalid credentials
       var invalidResponse = {
         mStatus: "INVALID_CREDENTIALS"
       }
@@ -251,16 +278,23 @@ function findGames(response, postData, db, properties) {
 
 function makeMove(response, postData, db, properties) {
 
+  //Get request data
   var request = JSON.parse(postData);
 
+  //Find user by credentials
   models.User.findOne({mSessionId: request.mSessionId}, function (err, user) {
     if (err); // TODO handle err
+    //Prepare response header
     response.writeHead(200, {"Content-Type": "application/json"});
     if(user) {
+      //Find the game
       models.GameBoard.findByIdAndUpdate(request.mGameId, {mLocked: true},function(err, game) {
         if(game) {
+          //Make the game handler check if move is valid
           gameHandler.checkMove(game, request, user, properties, function(moveResponse, updatedGame, playerIndex){
+            //Return the response to the user
             response.end(JSON.stringify(moveResponse));
+            //If the game was updated, update it in the database
             if(updatedGame) {
               var value = {};
               value["mPlayers." + playerIndex] = updatedGame.mPlayers[playerIndex];
@@ -318,7 +352,7 @@ function makeMoveFaceDown(response, postData, db, properties) {
 }
 
 
-
+//Export all request functions
 exports.login = login;
 exports.register = register;
 exports.findQuickGame = findQuickGame;
