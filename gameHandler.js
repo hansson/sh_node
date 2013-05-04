@@ -288,7 +288,7 @@ function checkMoveFaceDown(game, request, user, properties, callback) {
         } else if(checkFourOfAKind(cards, game.mPile)) {
           game.mPile.length = 0;
           response.mGameEvent = "FOUR";
-        } else if(card.mValue == 2 || game.mPile.length == 0 || card.mValue >= game.mPile[game.mPile.length - 1]){
+        } else if(card.mValue == 2 || game.mPile.length == 0 || card.mValue >= game.mPile[game.mPile.length - 1].mValue){
           do {
             game.mCurrentPlayer++;
             if(game.mCurrentPlayer == game.mNumberOfPlayers) {
