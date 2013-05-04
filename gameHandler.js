@@ -187,7 +187,7 @@ function checkMove(game, request, user, properties, callback) {
           response.mStatus = "CHANCE_TAKEN";
           callback(response, null, null);
           return;  
-        } else if(validateChanceTakePile(player, game.mPile) && game.mDeck.length > 0) {
+        } else if(validateTakeChance(player, game.mPile) && game.mDeck.length > 0) {
           response.mNewCards.push(game.mDeck.pop());
           player.mHand.push(response.mNewCards[0]);
           response.setNextPlayer = game.mCurrentPlayerName;
@@ -198,7 +198,7 @@ function checkMove(game, request, user, properties, callback) {
           return;     
         }
       } else if(request.mType == "PILE") {
-        if(validateChanceTakePile(player, game.mPile)) {
+        if(game.mPile.length != 0)) {
           var newCards = game.mPile;
           for (var i = newCards.length - 1; i >= 0; i--) {
             player.mHand.push(newCards[i]);
@@ -461,7 +461,7 @@ function cardExistsInArray(object, array) {
   return contains;
 }
 
-function validateChanceTakePile(player, pile) {
+function validateTakeChance(player, pile) {
   var valid = true;
   if (pile.length == 0) {
     valid = false;
