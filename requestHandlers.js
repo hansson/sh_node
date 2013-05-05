@@ -2,6 +2,7 @@ var exec = require("child_process").exec;
 var fs = require('fs');
 var models = require('./models');
 var gameHandler = require('./gameHandler');
+var friendHandler = require('./friendHandler');
 var gcm = require('./gcm-service');
 
 /***************************************
@@ -269,7 +270,7 @@ function findGames(response, postData, db, properties) {
       //If the session id does not exist, invalid credentials
       var invalidResponse = {
         mStatus: "INVALID_CREDENTIALS"
-      }
+      };
       response.end(JSON.stringify(invalidResponse));
     }
   });
@@ -304,17 +305,17 @@ function makeMove(response, postData, db, properties) {
         } else {
           var invalidGameResponse = {
             mStatus: "INVALID_GAME"
-          }
+          };
           response.end(JSON.stringify(invalidGameResponse));
         }
       });
-    } else {
-      var invalidResponse = {
-        mStatus: "INVALID_CREDENTIALS"
-      }
-      response.end(JSON.stringify(invalidResponse));
-    }
-  });
+} else {
+  var invalidResponse = {
+    mStatus: "INVALID_CREDENTIALS"
+  };
+  response.end(JSON.stringify(invalidResponse));
+}
+});
 }
 
 function makeMoveFaceDown(response, postData, db, properties) {
@@ -338,14 +339,68 @@ function makeMoveFaceDown(response, postData, db, properties) {
         } else {
           var invalidGameResponse = {
             mStatus: "INVALID_GAME"
-          }
+          };
           response.end(JSON.stringify(invalidGameResponse));
         }
       });
     } else {
       var invalidResponse = {
         mStatus: "INVALID_CREDENTIALS"
-      }
+      };
+      response.end(JSON.stringify(invalidResponse));
+    }
+  });
+}
+
+function listFriends(response, postData, db, properties) {
+
+  var request = JSON.parse(postData);
+
+  models.User.findOne({mSessionId: request.mSessionId}, function (err, user) {
+    if (err); // TODO handle err
+    response.writeHead(200, {"Content-Type": "application/json"});
+    if(user) {
+      var friendResponse = {
+        mStatus: "OK",
+        mFriends: []
+      };
+      for (var i = user.mFriends.length - 1; i >= 0; i--) {
+        friendResponse.mFriends.push(user.mFriends[i]);
+      };
+      response.end(JSON.stringify(friendResponse));
+    } else {
+      var invalidResponse = {
+        mStatus: "INVALID_CREDENTIALS"
+      };
+      response.end(JSON.stringify(invalidResponse));
+    }
+  });
+}
+
+function acceptFriend(response, postData, db, properties) {
+
+  var request = JSON.parse(postData);
+
+  models.User.findOne({mSessionId: request.mSessionId}, function (err, user) {
+    if (err); // TODO handle err
+    response.writeHead(200, {"Content-Type": "application/json"});
+    if(user) {
+      models.User.findOne({mUsername: request.mFriendUsername}, function(err, friend){
+        if(friend) {
+          friendHandler.acceptFriend(user, friend,function(updatedUser, updatedFriend, friendResponse){
+            response.end(JSON.stringify(friendResponse));
+          });
+        } else {
+          var badFriendResponse = {
+            mStatus: "NOT_OK"
+          };
+          response.end(JSON.stringify(badFriendResponse));
+        } 
+      });
+    } else {
+      var invalidResponse = {
+        mStatus: "INVALID_CREDENTIALS"
+      };
       response.end(JSON.stringify(invalidResponse));
     }
   });
@@ -361,5 +416,6 @@ exports.switchCards = switchCards;
 exports.findGames = findGames;
 exports.makeMove = makeMove;
 exports.makeMoveFaceDown = makeMoveFaceDown;
-
+exports.listFriends = listFriends;
+exports.acceptFriend = acceptFriend;
 

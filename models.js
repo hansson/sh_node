@@ -33,12 +33,13 @@ var userSchema = mongoose.Schema({
   mActive: Boolean,
   mCreated: {type: Date},
   mRegId: String,
-  mFriends: [String], //TODO change to Friend[]
+  mFriends: [{mUsername: String, mAccepted: Boolean, mAvatar: String}],
   mCurrentGames: [String],
   mFinishedGames: [String],
   mMatches: Number,
   mWon: Number,
-  mLocked: Boolean
+  mLocked: Boolean,
+  mAvatar: String
 });
 userSchema.set('toObject', { getters: true, virtuals: false });
 var User = mongoose.model('user', userSchema);
