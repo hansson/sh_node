@@ -20,6 +20,8 @@ handle["/switch"] = requestHandlers.switchCards;
 handle["/games"] = requestHandlers.findGames;
 handle["/move"] = requestHandlers.makeMove;
 handle["/move/face-down"] = requestHandlers.makeMoveFaceDown;
+handle["/friends/list"] = requestHandlers.listFriends;
+handle["/friends/accept"] = requestHandlers.acceptFriend;
 
 //Read properties
 prop.read("deployment.properties", function(err, properties) {
