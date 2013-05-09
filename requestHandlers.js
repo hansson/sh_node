@@ -387,8 +387,11 @@ function acceptFriend(response, postData, db, properties) {
     if(user) {
       models.User.findOne({mUsername: request.mFriendUsername}, function(err, friend){
         if(friend) {
-          friendHandler.acceptFriend(user, friend,function(updatedUser, updatedFriend, friendResponse){
+          friendHandler.acceptFriend(user, friend,function(updatedUser, friendResponse){
             response.end(JSON.stringify(friendResponse));
+            if(updatedUser) {
+              models.User.update({_id: updatedUser._id},{mFriends: updatesUser.mFriends}).exec();
+            }
           });
         } else {
           var badFriendResponse = {
