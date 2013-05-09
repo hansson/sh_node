@@ -198,7 +198,7 @@ function checkMove(game, request, user, properties, callback) {
           return;     
         }
       } else if(request.mType == "PILE") {
-        if(game.mPile.length != 0)) {
+        if(game.mPile.length != 0) {
           var newCards = game.mPile;
           for (var i = newCards.length - 1; i >= 0; i--) {
             player.mHand.push(newCards[i]);
