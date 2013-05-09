@@ -5,13 +5,13 @@ function acceptFriend(user, friend, callback) {
 	var userIndex = findFriendIndexOnUser(user, friend);
 
 	if(friendIndex > -1 && userIndex > -1 && user.mFriends[friendIndex].mAccepted == false && friend.mFriends[userIndex].mAccepted == true) {
-		var acceptedFriendResponse {
+		var acceptedFriendResponse = {
 			mStatus: "OK"
 		};
 		user.mFriends[friendIndex].mAccepted = true;
 		callback(user, acceptedFriendResponse);
 	} else {
-		var invalidFriendResponse {
+		var invalidFriendResponse = {
 			mStatus: "NOT_OK"
 		};
 		callback(null, invalidFriendResponse);
