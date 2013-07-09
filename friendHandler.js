@@ -18,8 +18,26 @@ function acceptFriend(user, friend, callback) {
 	}
 }
 
+function removeFriend(user, friend, callback) {
+	var friendIndex = findFriendIndexOnUser(friend, user);
+	var userIndex = findFriendIndexOnUser(user, friend);
+
+	if(friendIndex > -1 && userIndex > -1) {
+		var removedFriendResponse = {
+			mStatus: "OK"
+		};
+		callback(user, removedFriendResponse);
+	} else {
+		var invalidFriendResponse = {
+			mStatus: "NOT_OK"
+		};
+		callback(null, invalidFriendResponse);
+	}
+}
+
 //Export all friend functions
 exports.acceptFriend = acceptFriend;
+exports.removeFriend = removeFriend;
 
 //Private functions
 function findFriendIndexOnUser(friend, user) {

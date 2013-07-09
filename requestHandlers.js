@@ -409,6 +409,38 @@ function acceptFriend(response, postData, db, properties) {
   });
 }
 
+function removeFriend(response, postData, db, properties) {
+
+  var request = JSON.parse(postData);
+
+  models.User.findOne({mSessionId: request.mSessionId}, function (err, user) {
+    if (err); // TODO handle err
+    response.writeHead(200, {"Content-Type": "application/json"});
+    if(user) {
+      models.User.findOne({mUsername: request.mFriendUsername}, function(err, friend){
+        if(friend) {
+          friendHandler.removeFriend(user, friend,function(updatedUser, updatedFriend, friendResponse){
+            response.end(JSON.stringify(friendResponse));
+            if(updatedUser) {
+              models.User.update({_id: updatedUser._id},{mFriends: updatesUser.mFriends}).exec();
+            }
+          });
+        } else {
+          var badFriendResponse = {
+            mStatus: "NOT_OK"
+          };
+          response.end(JSON.stringify(badFriendResponse));
+        } 
+      });
+    } else {
+      var invalidResponse = {
+        mStatus: "INVALID_CREDENTIALS"
+      };
+      response.end(JSON.stringify(invalidResponse));
+    }
+  });
+}
+
 
 //Export all request functions
 exports.login = login;
@@ -421,4 +453,5 @@ exports.makeMove = makeMove;
 exports.makeMoveFaceDown = makeMoveFaceDown;
 exports.listFriends = listFriends;
 exports.acceptFriend = acceptFriend;
+exports.removeFriend = removeFriend;
 

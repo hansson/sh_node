@@ -22,6 +22,7 @@ handle["/move"] = requestHandlers.makeMove;
 handle["/move/face-down"] = requestHandlers.makeMoveFaceDown;
 handle["/friends/list"] = requestHandlers.listFriends;
 handle["/friends/accept"] = requestHandlers.acceptFriend;
+handle["/friends/remove"] = requestHandlers.removeFriend;
 
 //Read properties
 prop.read("deployment.properties", function(err, properties) {
