@@ -22,22 +22,52 @@ function removeFriend(user, friend, callback) {
 	var friendIndex = findFriendIndexOnUser(friend, user);
 	var userIndex = findFriendIndexOnUser(user, friend);
 
-	if(friendIndex > -1 && userIndex > -1) {
+	if(friendIndex > -1 ) {
 		var removedFriendResponse = {
 			mStatus: "OK"
 		};
-		callback(user, removedFriendResponse);
+		user.mFriends.splice(friendIndex , 1);
+		if(userIndex > -1) {
+			friend.mFriends.splice(userIndex, 1);
+			callback(user, friend, removedFriendResponse);	
+		} else {
+			callback(user, null, removedFriendResponse);	
+		}
 	} else {
 		var invalidFriendResponse = {
 			mStatus: "NOT_OK"
 		};
-		callback(null, invalidFriendResponse);
+		callback(null, null, invalidFriendResponse);
+	}
+}
+
+function addFriend(user, friend, callback) {
+	var friendIndex = findFriendIndexOnUser(friend, user);
+	var userIndex = findFriendIndexOnUser(user, friend);
+
+	if(friendIndex == -1 ) {
+		var addFriendResponse = {
+			mStatus: "OK"
+		};
+		user.mFriends.splice(friendIndex , 1);
+		if(userIndex > -1) {
+			friend.mFriends.splice(userIndex, 1);
+			callback(user, friend, removedFriendResponse);	
+		} else {
+			callback(user, null, removedFriendResponse);	
+		}
+	} else {
+		var invalidFriendResponse = {
+			mStatus: "NOT_OK"
+		};
+		callback(null, null, invalidFriendResponse);
 	}
 }
 
 //Export all friend functions
 exports.acceptFriend = acceptFriend;
 exports.removeFriend = removeFriend;
+exports.addFriend = addFriend;
 
 //Private functions
 function findFriendIndexOnUser(friend, user) {
