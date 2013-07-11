@@ -24,6 +24,7 @@ handle["/friends/list"] = requestHandlers.listFriends;
 handle["/friends/accept"] = requestHandlers.acceptFriend;
 handle["/friends/remove"] = requestHandlers.removeFriend;
 handle["/friends/add"] = requestHandlers.addFriend;
+handle["/friends/deny"] = requestHandlers.removeFriend;
 
 //Read properties
 prop.read("deployment.properties", function(err, properties) {

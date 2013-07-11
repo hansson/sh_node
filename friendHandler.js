@@ -45,17 +45,17 @@ function addFriend(user, friend, callback) {
 	var friendIndex = findFriendIndexOnUser(friend, user);
 	var userIndex = findFriendIndexOnUser(user, friend);
 
-	if(friendIndex == -1 ) {
+	if(friendIndex == -1) {
 		var addFriendResponse = {
 			mStatus: "OK"
 		};
-		user.mFriends.splice(friendIndex , 1);
-		if(userIndex > -1) {
-			friend.mFriends.splice(userIndex, 1);
-			callback(user, friend, removedFriendResponse);	
+		user.mFriends.push({mUsername: friend.mUsername, mAccepted: true, mAvatar: friend.mAvatar});
+		if(userIndex == -1) {
+			friend.mFriends.push({mUsername: user.mUsername, mAccepted: false, mAvatar: user.mAvatar});
 		} else {
-			callback(user, null, removedFriendResponse);	
+			friend.mFriends[userIndex] = {mUsername: user.mUsername, mAccepted: true, mAvatar: user.mAvatar});
 		}
+		callback(user, friend, removedFriendResponse);	
 	} else {
 		var invalidFriendResponse = {
 			mStatus: "NOT_OK"
