@@ -53,7 +53,7 @@ function addFriend(user, friend, callback) {
 		if(userIndex == -1) {
 			friend.mFriends.push({mUsername: user.mUsername, mAccepted: false, mAvatar: user.mAvatar});
 		} else {
-			friend.mFriends[userIndex] = {mUsername: user.mUsername, mAccepted: true, mAvatar: user.mAvatar});
+			friend.mFriends[userIndex] = {mUsername: user.mUsername, mAccepted: true, mAvatar: user.mAvatar};
 		}
 		callback(user, friend, removedFriendResponse);	
 	} else {

@@ -495,5 +495,4 @@ exports.listFriends = listFriends;
 exports.acceptFriend = acceptFriend;
 exports.removeFriend = removeFriend;
 exports.addFriend = addFriend;
-exports.denyFriend = denyFriend;
 
