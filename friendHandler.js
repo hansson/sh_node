@@ -55,7 +55,7 @@ function addFriend(user, friend, callback) {
 		} else {
 			friend.mFriends[userIndex] = {mUsername: user.mUsername, mAccepted: true, mAvatar: user.mAvatar};
 		}
-		callback(user, friend, removedFriendResponse);	
+		callback(user, friend, addFriendResponse);	
 	} else {
 		var invalidFriendResponse = {
 			mStatus: "FRIEND_EXISTS"
