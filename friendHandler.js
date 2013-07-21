@@ -72,6 +72,8 @@ exports.addFriend = addFriend;
 //Private functions
 function findFriendIndexOnUser(friend, user) {
 	var index = -1;
+	console.log("IN FIND FRIEND INDEX ON USER");
+	console.log("LENGTH: " + user.mFriends.length);
 	for (var i = user.mFriends.length - 1; i >= 0; i--) {
 		if(user.mFriends[i].mUsername == friend.mUsername) {
 			index = i;
