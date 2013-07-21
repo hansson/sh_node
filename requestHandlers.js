@@ -458,7 +458,7 @@ function addFriend(response, postData, db, properties) {
           friendHandler.addFriend(user, friend,function(updatedUser, updatedFriend, friendResponse){
             response.end(JSON.stringify(friendResponse));
             if(updatedUser) {
-              models.User.update({_id: updatedUser._id},{mFriends: updatesUser.mFriends}).exec();
+              models.User.update({_id: updatedUser._id},{mFriends: updatedUser.mFriends}).exec();
             }
 
             if(updatedFriend) {
