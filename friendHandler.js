@@ -35,7 +35,7 @@ function removeFriend(user, friend, callback) {
 		}
 	} else {
 		var invalidFriendResponse = {
-			mStatus: "NOT_OK"
+			mStatus: "FRIEND_NOT_EXISTS"
 		};
 		callback(null, null, invalidFriendResponse);
 	}
@@ -58,7 +58,7 @@ function addFriend(user, friend, callback) {
 		callback(user, friend, removedFriendResponse);	
 	} else {
 		var invalidFriendResponse = {
-			mStatus: "NOT_OK"
+			mStatus: "FRIEND_EXISTS"
 		};
 		callback(null, null, invalidFriendResponse);
 	}
