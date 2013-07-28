@@ -15,6 +15,7 @@ var handle = {}
 handle["/login"] = requestHandlers.login;
 handle["/register"] = requestHandlers.register;
 handle["/find"] = requestHandlers.findQuickGame;
+handle["/find/invite"] = requestHandlers.findGameInviteFriend;
 handle["/game"] = requestHandlers.getGameState;
 handle["/switch"] = requestHandlers.switchCards;
 handle["/games"] = requestHandlers.findGames;

@@ -26,7 +26,7 @@ function handleQueue(db, properties) {
 			var player = JSON.parse(fs.readFileSync("./queue/" + queueFiles[0], encoding = "utf8"));
 			//Find a available GameBoard that is not started, not locked and does not contain the current player
 			//Update the game so that it is locked
-			models.GameBoard.findOneAndUpdate({mStarted: false, mLocked: false, "mPlayers.mPlayerId": {$ne: player.mPlayerId}}, {mLocked: true}, function (err, gameBoard) {
+			models.GameBoard.findOneAndUpdate({mPrivateGame: false, mStarted: false, mLocked: false, "mPlayers.mPlayerId": {$ne: player.mPlayerId}}, {mLocked: true}, function (err, gameBoard) {
 				//If a game was found
 				if(gameBoard) {
 					//Get all players in the game
@@ -79,7 +79,7 @@ function handleQueue(db, properties) {
 					//Shuffle it
 					deck = toolbox.shuffle(deck);
 					//The current player
-					var players = [{mPlayerId: player.mPlayerId, mUsername: player.mUsername, mPosition: 0, mSwitching: true}];
+					var players = [{mPlayerId: player.mPlayerId, mUsername: player.mUsername, mPosition: 0, mSwitching: true, mAccepted: true}];
 					//Create the new game
 					var newGame = new models.GameBoard({
 				    	mDeck: deck,
@@ -92,6 +92,7 @@ function handleQueue(db, properties) {
     					mRoundLength: 60,
     					mStarted: false,
     					mSwitching: false,
+    					mPrivateGame: false,
     					mPlayers: players
 			        });
 			        //Save it

@@ -12,7 +12,7 @@ var gameBoardSchema = mongoose.Schema({
   mStarted: Boolean,
   mSwitching: Boolean,
   mFinished: Boolean,
-  mPlayers: [{mPlayerId: String, mUsername: String, mHand: [{mValue: Number, mSuit: Number}], mFaceDown: [{mValue: Number, mSuit: Number}], mFaceUp: [{mValue: Number, mSuit: Number}], mPosition: Number, mSwitching: Boolean}],
+  mPlayers: [{mPlayerId: String, mUsername: String, mHand: [{mValue: Number, mSuit: Number}], mFaceDown: [{mValue: Number, mSuit: Number}], mFaceUp: [{mValue: Number, mSuit: Number}], mPosition: Number, mSwitching: Boolean, mAccepted: Boolean}],
   mDeck: [{mValue: Number, mSuit: Number}],
   mPile: [{mValue: Number, mSuit: Number}],
   mStartedAt: {type: Date},
@@ -20,6 +20,7 @@ var gameBoardSchema = mongoose.Schema({
   mChanceTaken: Boolean,
   mRoundLenght: Number,
   mNumberOfPlayers: Number,
+  mPrivateGame: Boolean,
   mLocked: Boolean
 });
 var GameBoard = mongoose.model('gameBoard', gameBoardSchema);

@@ -136,6 +136,88 @@ function findQuickGame(response, postData, db, properties) {
   });
 }
 
+function findGameInviteFriend(response, postData, db, properties) {
+
+  //Get request data
+  var request = JSON.parse(postData);
+
+  //Find the user with the specified sessionId
+  models.User.findOne({mSessionId: request.mSessionId}, function (err, user) {
+    if (err); // TODO handle err
+    //Prepare user with 200 response code
+    response.writeHead(200, {"Content-Type": "application/json"});
+    //If a user was found
+    if(user && players.length < 4) {
+
+      //Populate friends
+      var players = [];
+      for (var i = request.mFriends.length - 1; i >= 0; i--) {
+        players.push({mPlayerId: request.mFriends[i]._id, mUsername: request.mFriends[i].mUsername, mPosition: 0, mSwitching: true, mAccepted: false});
+      };
+
+      players.push({mPlayerId: user._id, mUsername: user.mUsername, mPosition: 0, mSwitching: true, mAccepted: true});
+
+      if (request.mPrivateGame && players.length == 1) {
+        //Private game and no friends is NOT_OK
+        var noFriendResponse = {
+          mStatus: "NOT_OK"
+        }
+        response.end(JSON.stringify(noFriendResponse));
+        return;
+      };
+
+      var playerAmount = 4;
+      if(request.mPrivateGame) {
+        playerAmount = players.length;
+      }
+
+      //Create a deck
+      var pos = 0;
+      var deck = [];
+
+      for (var i = 1; i <= 4; i++) {
+        for (var j = 2; j < 15; j++) {
+          deck[pos] = {mValue: j, mSuit: i};
+          pos++;
+        };
+      };
+      //Shuffle it
+      deck = toolbox.shuffle(deck);
+
+      //Create the new game
+      var newGame = new models.GameBoard({
+        mDeck: deck,
+        mChanceTaken: false,
+        mCurrentPlayer: 0,
+        mCurrentPlayerName: "-",
+        mFinished: false,
+        mLocked: false,
+        mNumberOfPlayers: playerAmount,
+        mRoundLength: 60,
+        mStarted: false,
+        mSwitching: false,
+        mPrivateGame: request.mPrivateGame,
+        mPlayers: players
+      });
+      //Save it
+      newGame.save(); 
+
+      //Set status to "OK"
+      var basicResponse = {
+        mStatus: "OK"
+      }
+      //Return response to the user
+      response.end(JSON.stringify(basicResponse));
+  } else {
+      //If no user was found return invalid credentials
+      var invalidResponse = {
+        mStatus: "INVALID_CREDENTIALS"
+      }
+      response.end(JSON.stringify(invalidResponse));
+    }
+  });
+}
+
 
 function getGameState(response, postData, db, properties) {
 
@@ -352,6 +434,12 @@ function makeMoveFaceDown(response, postData, db, properties) {
   });
 }
 
+/***************************************
+****************************************
+Friend functions
+****************************************
+****************************************/
+
 function listFriends(response, postData, db, properties) {
 
   var request = JSON.parse(postData);
@@ -486,6 +574,7 @@ function addFriend(response, postData, db, properties) {
 exports.login = login;
 exports.register = register;
 exports.findQuickGame = findQuickGame;
+exports.findGameInviteFriend = findGameInviteFriend;
 exports.getGameState = getGameState;
 exports.switchCards = switchCards;
 exports.findGames = findGames;

@@ -31,8 +31,9 @@ function getGameState(game, user, callback) {
 			gameStateResponse.mHand = game.mPlayers[i].mHand;
 			gameStateResponse.mPlayerSwitching= game.mPlayers[i].mSwitching; 
 			gameStateResponse.mPosition = game.mPlayers[i].mPosition;
+      gameStateResponse.mAccepted = game.mPlayers[i].mAccepted;
 		} else {
-			opponents.push({mFaceDown: game.mPlayers[i].mFaceDown.length, mFaceUp: game.mPlayers[i].mFaceUp, mOnHand: game.mPlayers[i].mHand.length, mUsername: game.mPlayers[i].mUsername, mPosition: game.mPlayers[i].mPosition});
+			opponents.push({mFaceDown: game.mPlayers[i].mFaceDown.length, mFaceUp: game.mPlayers[i].mFaceUp, mOnHand: game.mPlayers[i].mHand.length, mUsername: game.mPlayers[i].mUsername, mPosition: game.mPlayers[i].mPosition, mAccepted: game.mPlayers[i].mAccepted});
 		}
 	};
 	gameStateResponse.mOpponents = opponents;
