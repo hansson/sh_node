@@ -343,7 +343,7 @@ function findGames(response, postData, db, properties) {
       models.GameBoard.find({_id: {$in: user.mCurrentGames}}, function(err, games) {
         //Put every game in the response
         for (var i = games.length - 1; i >= 0; i--) {
-          activeGamesResponse.mGames.push({mStartedAt: games[i].mStartedAt, mGameId: games[i]._id, mCurrentPlayerName: games[i].mCurrentPlayerName, mLastMove: games[i].mLastUpdate});
+          activeGamesResponse.mGames.push({mStartedAt: games[i].mStartedAt, mGameId: games[i]._id, mCurrentPlayerName: games[i].mCurrentPlayerName, mLastMove: games[i].mLastUpdate, mRoundLenght: games[i].mRoundLenght});
         };
         //Return response to the user
         response.end(JSON.stringify(activeGamesResponse));
