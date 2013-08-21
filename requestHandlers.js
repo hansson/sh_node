@@ -280,6 +280,7 @@ function switchCards(response, postData, db, properties) {
             }
             models.GameBoard.findById(game._id, function(err, checkGame) {
               gameHandler.checkSetDoneSwitching(checkGame, function(setDone, currentPlayer, currentPlayerName) {
+                console.log(setDone);
                 if(setDone) {
                   models.GameBoard.update({_id: game._id}, {$set: {mCurrentPlayer: currentPlayer}, $set: {mCurrentPlayerName: currentPlayerName}, $set: {mSwitching: false}}).exec();
                   var regIds = [];
