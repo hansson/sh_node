@@ -18,7 +18,7 @@ var gameBoardSchema = mongoose.Schema({
   mStartedAt: {type: Date},
   mLastUpdate: {type: Date},
   mChanceTaken: Boolean,
-  mRoundLenght: Number,
+  mRoundLength: Number,
   mNumberOfPlayers: Number,
   mPrivateGame: Boolean,
   mLocked: Boolean

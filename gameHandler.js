@@ -425,7 +425,7 @@ function setNewCards(response, player, deck) {
     for (var i = 3 - player.mHand.length; i > 0 ; i--) {
       var newCard = deck.pop();
       if(newCard != null) {
-        response.mNewCards.push();
+        response.mNewCards.push(newCard);
       }
     };
 
