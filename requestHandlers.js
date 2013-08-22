@@ -282,7 +282,7 @@ function switchCards(response, postData, db, properties) {
               gameHandler.checkSetDoneSwitching(checkGame, function(setDone, currentPlayer, currentPlayerName) {
                 console.log(setDone);
                 if(setDone) {
-                  models.GameBoard.update({_id: game._id}, {$set: {mCurrentPlayer: currentPlayer}, $set: {mCurrentPlayerName: currentPlayerName}, $set: {mSwitching: false}}).exec();
+                  models.GameBoard.update({_id: game._id}, {$set: mCurrentPlayer: currentPlayer, mCurrentPlayerName: currentPlayerName, mSwitching: false}).exec();
                   var regIds = [];
                   var players = checkGame.mPlayers;
                   //Iterate players
