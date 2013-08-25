@@ -3,6 +3,7 @@ var fs = require('fs');
 var models = require('./models');
 var gameHandler = require('./gameHandler');
 var friendHandler = require('./friendHandler');
+var queue = require('./queue');
 var gcm = require('./gcm-service');
 
 /***************************************
@@ -125,7 +126,7 @@ function findQuickGame(response, postData, db, properties) {
         mUsername: user.mUsername
       }
       //Write to new queue file
-      fs.writeFile("./queue/" + Date.now() + user.mUsername + ".queue", JSON.stringify(player));
+      queue.handleQueue(db, properties, player);
     } else {
       //If no user was found return invalid credentials
       var invalidResponse = {
@@ -344,7 +345,7 @@ function findGames(response, postData, db, properties) {
       models.GameBoard.find({_id: {$in: user.mCurrentGames}}, function(err, games) {
         //Put every game in the response
         for (var i = games.length - 1; i >= 0; i--) {
-          activeGamesResponse.mGames.push({mStartedAt: games[i].mStartedAt, mGameId: games[i]._id, mCurrentPlayerName: games[i].mCurrentPlayerName, mLastMove: games[i].mLastUpdate, mRoundLenght: games[i].mRoundLenght});
+          activeGamesResponse.mGames.push({mStartedAt: games[i].mStartedAt, mGameId: games[i]._id, mCurrentPlayerName: games[i].mCurrentPlayerName, mLastMove: games[i].mLastUpdate, mRoundLength: games[i].mRoundLength});
         };
         //Return response to the user
         response.end(JSON.stringify(activeGamesResponse));
@@ -466,38 +467,6 @@ function listFriends(response, postData, db, properties) {
   });
 }
 
-function acceptFriend(response, postData, db, properties) {
-
-  var request = JSON.parse(postData);
-
-  models.User.findOne({mSessionId: request.mSessionId}, function (err, user) {
-    if (err); // TODO handle err
-    response.writeHead(200, {"Content-Type": "application/json"});
-    if(user) {
-      models.User.findOne({mUsername: request.mFriendUsername}, function(err, friend){
-        if(friend) {
-          friendHandler.acceptFriend(user, friend,function(updatedUser, friendResponse){
-            response.end(JSON.stringify(friendResponse));
-            if(updatedUser) {
-              models.User.update({_id: updatedUser._id},{mFriends: updatedUser.mFriends}).exec();
-            }
-          });
-        } else {
-          var badFriendResponse = {
-            mStatus: "NOT_OK"
-          };
-          response.end(JSON.stringify(badFriendResponse));
-        } 
-      });
-    } else {
-      var invalidResponse = {
-        mStatus: "INVALID_CREDENTIALS"
-      };
-      response.end(JSON.stringify(invalidResponse));
-    }
-  });
-}
-
 function removeFriend(response, postData, db, properties) {
 
   var request = JSON.parse(postData);
@@ -506,24 +475,11 @@ function removeFriend(response, postData, db, properties) {
     if (err); // TODO handle err
     response.writeHead(200, {"Content-Type": "application/json"});
     if(user) {
-      models.User.findOne({mUsername: request.mFriendUsername}, function(err, friend){
-        if(friend) {
-          friendHandler.removeFriend(user, friend,function(updatedUser, updatedFriend, friendResponse){
-            response.end(JSON.stringify(friendResponse));
-            if(updatedUser) {
-              models.User.update({_id: updatedUser._id},{mFriends: updatedUser.mFriends}).exec();
-            }
-
-            if(updatedFriend) {
-              models.User.update({_id: updatedFriend._id},{mFriends: updatedFriend.mFriends}).exec();
-            }
-          });
-        } else {
-          var badFriendResponse = {
-            mStatus: "NOT_OK"
-          };
-          response.end(JSON.stringify(badFriendResponse));
-        } 
+      friendHandler.removeFriend(user, request.mFriendUsername,function(updatedUser, friendResponse){
+        response.end(JSON.stringify(friendResponse));
+        if(updatedUser) {
+          models.User.update({_id: updatedUser._id},{mFriends: updatedUser.mFriends}).exec();
+        }
       });
     } else {
       var invalidResponse = {
@@ -548,10 +504,6 @@ function addFriend(response, postData, db, properties) {
             response.end(JSON.stringify(friendResponse));
             if(updatedUser) {
               models.User.update({_id: updatedUser._id},{mFriends: updatedUser.mFriends}).exec();
-            }
-
-            if(updatedFriend) {
-              models.User.update({_id: updatedFriend._id},{mFriends: updatedFriend.mFriends}).exec();
             }
           });
         } else {
@@ -582,7 +534,6 @@ exports.findGames = findGames;
 exports.makeMove = makeMove;
 exports.makeMoveFaceDown = makeMoveFaceDown;
 exports.listFriends = listFriends;
-exports.acceptFriend = acceptFriend;
 exports.removeFriend = removeFriend;
 exports.addFriend = addFriend;
 

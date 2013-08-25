@@ -1,29 +1,9 @@
-var fs = require('fs');
-var exec = require('child_process').exec;
-var sleep = require('sleep');
 var toolbox = require('toolbox');
-var mongoose = require('mongoose');
-var prop = require('properties-parser');
 var gcm = require('./gcm-service');
 var models = require('./models');
 
-prop.read("deployment.properties", function(err, properties) {
-	//Database connection
-	mongoose.connect(properties["mongo-url"]);
-	var db = mongoose.connection;
-	handleQueue(db, properties);
-});
-
 //This function will handle all the users queued for games
-function handleQueue(db, properties) {
-	//Find out if there is any files with new users
-	exec('ls ./queue', function(err, stdout, stderr) {
-		//Put file names into array
-		var queueFiles = stdout.split("\n");
-		//If files exist
-		if(queueFiles.length > 0 && queueFiles[0].length > 10) {
-			//Read the player from the first file
-			var player = JSON.parse(fs.readFileSync("./queue/" + queueFiles[0], encoding = "utf8"));
+function handleQueue(db, properties,player) {
 			//Find a available GameBoard that is not started, not locked and does not contain the current player
 			//Update the game so that it is locked
 			models.GameBoard.findOneAndUpdate({mPrivateGame: false, mStarted: false, mLocked: false, "mPlayers.mPlayerId": {$ne: player.mPlayerId}}, {mLocked: true}, function (err, gameBoard) {
@@ -49,7 +29,7 @@ function handleQueue(db, properties) {
 
 										var games = user.mCurrentGames;
 										games.push(gameBoard._id);
-										models.User.update({_id: user._id,}, {mCurrentGames: games}).exec();
+										models.User.update({_id: user._id}, {mCurrentGames: games}).exec();
 										//When all players are in the array
 										if(regIds.length === players.length) {
 											//Send start event with GCM
@@ -61,14 +41,23 @@ function handleQueue(db, properties) {
 							});
 						});
 					//If game is not full	
-					} else {
+				} else {
 						//Update with the new user
 						models.GameBoard.update({_id: gameBoard._id},{mLocked: false, mPlayers: players}).exec();
+						//And put the new game in the users games
+						models.User.findById(player.mPlayerId, function(err, user) {
+							var games = user.mCurrentGames;
+							games.push(gameBoard._id);
+							models.User.update({_id: user._id}, {mCurrentGames: games}).exec();
+							var regIds = [];
+							regIds.push(user.mRegId);
+							gcm.sendGCMMessage({mGCMType: "GCM_QUEUED", mGameId: gameBoard._id}, regIds, properties);
+						});
 					}
 				//If no game was found	
-				} else {
-					var pos = 0;
-					var deck = [];
+			} else {
+				var pos = 0;
+				var deck = [];
 					//Create a deck
 					for (var i = 1; i <= 4; i++) {
 						for (var j = 2; j < 15; j++) {
@@ -82,33 +71,34 @@ function handleQueue(db, properties) {
 					var players = [{mPlayerId: player.mPlayerId, mUsername: player.mUsername, mPosition: 0, mSwitching: true, mAccepted: true}];
 					//Create the new game
 					var newGame = new models.GameBoard({
-				    	mDeck: deck,
-				    	mChanceTaken: false,
-    					mCurrentPlayer: 0,
-    					mCurrentPlayerName: "-",
-    					mFinished: false,
-    					mLocked: false,
-    					mNumberOfPlayers: 4,
-    					mRoundLength: 60,
-    					mStarted: false,
-    					mSwitching: false,
-    					mPrivateGame: false,
-    					mPlayers: players
-			        });
+						mDeck: deck,
+						mChanceTaken: false,
+						mCurrentPlayer: 0,
+						mCurrentPlayerName: "-",
+						mFinished: false,
+						mLocked: false,
+						mNumberOfPlayers: 4,
+						mRoundLength: 60,
+						mStarted: false,
+						mSwitching: false,
+						mPrivateGame: false,
+						mPlayers: players
+					});
 			        //Save it
-			        newGame.save();	
-				}
+			        newGame.save();
 
-				//Done with this queue item, handle next
-				exec('rm ./queue/' + queueFiles[0], function(err, stdout, stderr) {
-				});	
-				handleQueue(db,properties);
-					
-				});
-		} else {
-			process.exit(0);
-		}
-	});
+			        //put the new game in the users games
+			        models.User.findById(player.mPlayerId, function(err, user) {
+			        	var games = user.mCurrentGames;
+			        	games.push(newGame._id);
+			        	models.User.update({_id: user._id}, {mCurrentGames: games}).exec();
+			        	var regIds = [];
+			        	regIds.push(user.mRegId);
+			        	gcm.sendGCMMessage({mGCMType: "GCM_QUEUED", mGameId: newGame._id}, regIds, properties);
+			        });
+			    }
+
+			});
 }
 
 
@@ -123,6 +113,8 @@ function deal(gameBoard, players,  callback) {
 
 	callback(gameBoard, players)
 }
+
+exports.handleQueue = handleQueue;
 
 
 

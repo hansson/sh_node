@@ -34,7 +34,7 @@ var userSchema = mongoose.Schema({
   mActive: Boolean,
   mCreated: {type: Date},
   mRegId: String,
-  mFriends: [{mUsername: String, mAccepted: Boolean, mAvatar: String}],
+  mFriends: [{mUsername: String, mAvatar: String}],
   mCurrentGames: [String],
   mFinishedGames: [String],
   mMatches: Number,
