@@ -1,12 +1,12 @@
 language: node_js
 node_js:
-  - "0.10"
+	- "0.10"
 before_script:
-  - npm install -g mongodb
-  - npm install -g mongoose
-  - npm install -g node-gcm
-  - npm install -g properties-parser
-  - npm install -g sleep
-  - npm install -g toolbox
+	- npm install -g mongodb
+	- npm install -g mongoose
+	- npm install -g node-gcm
+	- npm install -g properties-parser
+	- npm install -g sleep
+	- npm install -g toolbox
 services:
-  - mongodb
+	- mongodb
