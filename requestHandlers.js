@@ -148,7 +148,7 @@ function findGameInviteFriend(response, postData, db, properties) {
     //Prepare user with 200 response code
     response.writeHead(200, {"Content-Type": "application/json"});
     //If a user was found
-    if(user && players.length < 4) {
+    if(user ) {
 
       //Populate friends
       var players = [];
