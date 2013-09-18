@@ -1,11 +1,15 @@
 all: install
 
 test: install
+	touch deployment.properties
+	echo 'gcm-key = not-testing-gcm' >> deployment.properties
+	echo 'mongo-url = mongodb://localhost:27017/sh_test' >> deployment.properties
+	echo 'server-port = 8080' >> deployment.properties
+	cat deployment.properties
 
 install:
 	npm install mongodb
 	npm install mongoose
-	npm install node-gcm
 	npm install properties-parser
-	npm install sleep
 	npm install toolbox
+	npm install nodeunit
