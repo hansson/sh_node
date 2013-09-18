@@ -5,6 +5,8 @@ test: install
 	echo 'gcm-key = not-testing-gcm' >> deployment.properties
 	echo 'mongo-url = mongodb://localhost:27017/sh_test' >> deployment.properties
 	echo 'server-port = 8080' >> deployment.properties
+	ls
+	ls tests
 	nodeunit ./tests/gameHandlerTest.js
 
 install:
