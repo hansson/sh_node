@@ -1,0 +1,25 @@
+{
+  "name": "sh_node",
+  "version": "0.0.1",
+  "description": "SH Node.Js backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "travis"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:hansson/sh_node.git"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "Tobias Hansson",
+  "bugs": {
+    "url": "https://github.com/hansson/sh_node/issues"
+  },
+  "devDependencies": {
+  },
+  "dependencies": {
+    "mongoose": "~3.6.19",
+  }
+}
