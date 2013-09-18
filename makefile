@@ -1,5 +1,7 @@
 all: install
 
+test: install
+
 install:
 	npm install mongodb
 	npm install mongoose
