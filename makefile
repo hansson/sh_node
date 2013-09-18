@@ -8,8 +8,9 @@ test: install
 	nodeunit tests/gameHandlerTest.js
 
 install:
-	npm install mongodb
-	npm install mongoose
-	npm install properties-parser
-	npm install toolbox
-	npm install nodeunit
+	npm install mongodb -g
+	npm install mongoose -g
+	npm install properties-parser -g
+	npm install toolbox -g
+	npm install nodeunit -g
+	npm install request -g
